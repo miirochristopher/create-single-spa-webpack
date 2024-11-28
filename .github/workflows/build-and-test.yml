@@ -1,0 +1,27 @@
+name: Build and Test
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.4.0
+      - run: git checkout main && git checkout $GITHUB_SHA
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm changeset status
+      - run: pnpm test --recursive
+      - run: pnpm run --recursive lint

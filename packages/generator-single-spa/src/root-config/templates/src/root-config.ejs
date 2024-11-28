@@ -1,0 +1,25 @@
+import { registerApplication, start<% if (typescript) {%>, LifeCycles<% }%> } from "single-spa";
+
+registerApplication({
+  name: "@single-spa/welcome",
+  app: () =>
+    import<% if (typescript) {%><LifeCycles><% } %>(
+      /* webpackIgnore: true */
+      "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js"
+    ),
+  activeWhen: ["/"],
+});
+
+// registerApplication({
+//   name: "@<%- orgName %>/navbar",
+//   app: () =>
+//     import<% if (typescript) {%><LifeCycles><% } %>(
+//       /* webpackIgnore: true */
+//       "@<%- orgName %>/navbar"
+//     ),
+//   activeWhen: ["/"],
+// });
+
+start({
+  urlRerouteOnly: true,
+});
